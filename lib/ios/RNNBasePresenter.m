@@ -69,6 +69,11 @@
 - (void)mergeOptions:(RNNNavigationOptions *)options resolvedOptions:(RNNNavigationOptions *)resolvedOptions {
     RNNNavigationOptions* withDefault = (RNNNavigationOptions *) [[resolvedOptions withDefault:_defaultOptions] overrideOptions:options];
 	
+    if (@available(iOS 13.0, *)) {
+        UIViewController* viewController = self.boundViewController;
+        viewController.modalInPresentation = !withDefault.modal.swipeToDismiss.get;
+    }
+
 	if (options.window.backgroundColor.hasValue) {
 		UIApplication.sharedApplication.delegate.window.backgroundColor = withDefault.window.backgroundColor.get;
 	}
